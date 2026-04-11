@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ultramega.justenoughrecipesharing.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ChatComponentMixin",
+    "ChatComponentMixin2",
+    "InvokerChatComponent"
+  ],
+  "client": [
+    "ChatScreenMixin"
+  ]
+}

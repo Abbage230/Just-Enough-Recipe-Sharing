@@ -1,0 +1,5 @@
+@ParametersAreNonnullByDefault
+@FieldsAndMethodsAreNonnullByDefault
+package com.ultramega.justenoughrecipesharing;
+
+import javax.annotation.ParametersAreNonnullByDefault;

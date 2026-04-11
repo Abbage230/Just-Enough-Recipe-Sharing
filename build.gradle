@@ -1,0 +1,52 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.15.5' apply false // see https://fabricmc.net/develop/ for new versions
+    id 'net.neoforged.moddev' version '2.0.141' apply false // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
+    id 'me.modmuss50.mod-publish-plugin' version "1.0.0"
+}
+
+publishMods {
+    changelog = current_changelog
+    type = STABLE
+
+    def cfOptions = curseforgeOptions {
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        projectId = "1511109"
+        minecraftVersions.add(minecraft_version)
+    }
+
+    def mrOptions = modrinthOptions {
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        projectId = "NBckKpmw"
+        minecraftVersions.add(minecraft_version)
+    }
+
+    curseforge("curseforgeFabric") {
+        from(cfOptions)
+        file(project(":fabric"))
+        modLoaders.add("fabric")
+        displayName = file.map { it.asFile.name }
+        requires("jei", "fabric-api")
+    }
+
+    curseforge("curseforgeNeoforge") {
+        from(cfOptions)
+        file(project(":neoforge"))
+        modLoaders.add("neoforge")
+        displayName = file.map { it.asFile.name }
+        requires("jei")
+    }
+
+    modrinth("modrinthFabric") {
+        from(mrOptions)
+        file(project(":fabric"))
+        modLoaders.add("fabric")
+        requires("jei", "fabric-api")
+    }
+
+    modrinth("modrinthNeoforge") {
+        from(mrOptions)
+        file(project(":neoforge"))
+        modLoaders.add("neoforge")
+        requires("jei")
+    }
+}
