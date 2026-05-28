@@ -1,6 +1,10 @@
 package com.ultramega.justenoughrecipesharing.fabric.platform;
 
+import com.ultramega.justenoughrecipesharing.Config;
+import com.ultramega.justenoughrecipesharing.fabric.ConfigImpl;
 import com.ultramega.justenoughrecipesharing.platform.services.IPlatformHelper;
+
+import java.util.function.Supplier;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -20,5 +24,10 @@ public class FabricPlatformHelper implements IPlatformHelper {
         for (final ServerPlayer player : PlayerLookup.all(server)) {
             ServerPlayNetworking.send(player, packet);
         }
+    }
+
+    @Override
+    public Supplier<Config> getConfig() {
+        return ConfigImpl::get;
     }
 }

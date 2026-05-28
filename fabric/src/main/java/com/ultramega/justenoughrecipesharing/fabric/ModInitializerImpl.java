@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 public class ModInitializerImpl implements ModInitializer {
     @Override
     public void onInitialize() {
+        ConfigImpl.register();
         this.registerPackets();
         this.registerPacketHandlers();
     }
@@ -21,7 +22,7 @@ public class ModInitializerImpl implements ModInitializer {
     private void registerPacketHandlers() {
         ServerPlayNetworking.registerGlobalReceiver(
             ShareRecipePacket.TYPE,
-            (packet, ctx) -> ShareRecipePacket.handleServer(packet, ctx.server())
+            (packet, ctx) -> ShareRecipePacket.handleServer(packet, ctx.player(), ctx.server())
         );
     }
 }

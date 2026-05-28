@@ -3,6 +3,7 @@ package com.ultramega.justenoughrecipesharing.client;
 import com.ultramega.justenoughrecipesharing.Constants;
 import com.ultramega.justenoughrecipesharing.network.FuelPayload;
 import com.ultramega.justenoughrecipesharing.network.ShareRecipePacket;
+import com.ultramega.justenoughrecipesharing.platform.Services;
 import com.ultramega.justenoughrecipesharing.recipes.RecipeChatComponentFactory;
 
 import java.util.LinkedHashMap;
@@ -48,6 +49,10 @@ public final class ClientRecipeShareManager {
 
     public static void receive(final ShareRecipePacket payload, final Player player) {
         Minecraft.getInstance().execute(() -> {
+            if (!Services.PLATFORM.getConfig().get().showSharedRecipesInChat()) {
+                return;
+            }
+
             final IJeiRuntime runtime = Internal.getJeiRuntime();
             final IJeiHelpers jeiHelpers = runtime.getJeiHelpers();
             final IRecipeManager recipeManager = runtime.getRecipeManager();

@@ -6,6 +6,9 @@ import com.ultramega.justenoughrecipesharing.platform.Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -46,6 +49,9 @@ public record ShareRecipePacket(Identifier recipeTypeUid, Tag recipeTag, List<Fo
     public static final String DATA_KEY = "data";
 
     private static final String KIND_NORMAL = "normal";
+
+    private static final long SHARE_COOLDOWN_MILLIS = 3_000L;
+    private static final Map<UUID, Long> LAST_SHARE_TIMES = new ConcurrentHashMap<>();
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
@@ -119,11 +125,35 @@ public record ShareRecipePacket(Identifier recipeTypeUid, Tag recipeTag, List<Fo
         return Component.translatable("misc.justenoughrecipesharing.unknown").getString();
     }
 
-    public static void handleServer(final ShareRecipePacket payload, @Nullable final MinecraftServer server) {
+    public static void handleServer(final ShareRecipePacket payload, @Nullable final Player player, @Nullable final MinecraftServer server) {
+        if (player != null && isOnCooldown(player)) {
+            return;
+        }
+
         Services.PLATFORM.sendPacketToAllPlayers(server, payload);
     }
 
     public static void handleClient(final ShareRecipePacket payload, final PacketContext ctx) {
         ClientRecipeShareManager.receive(payload, ctx.getPlayer());
+    }
+
+    private static boolean isOnCooldown(final Player player) {
+        final UUID playerId = player.getUUID();
+        final long now = System.currentTimeMillis();
+
+        LAST_SHARE_TIMES.entrySet().removeIf(entry -> now - entry.getValue() >= SHARE_COOLDOWN_MILLIS);
+
+        final Long lastShareTime = LAST_SHARE_TIMES.get(playerId);
+        if (lastShareTime != null) {
+            final long elapsed = now - lastShareTime;
+            if (elapsed < SHARE_COOLDOWN_MILLIS) {
+                final long remainingSeconds = (SHARE_COOLDOWN_MILLIS - elapsed + 999L) / 1_000L;
+                player.sendSystemMessage(Component.translatable("misc.justenoughrecipesharing.share_cooldown", remainingSeconds));
+                return true;
+            }
+        }
+
+        LAST_SHARE_TIMES.put(playerId, now);
+        return false;
     }
 }

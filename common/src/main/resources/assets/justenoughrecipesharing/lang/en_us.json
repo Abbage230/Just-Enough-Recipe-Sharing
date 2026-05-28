@@ -1,5 +1,8 @@
 {
   "tooltip.justenoughrecipesharing.share" : "Share this recipe.",
   "misc.justenoughrecipesharing.shared_recipe": "%s shared a recipe: %s",
-  "misc.justenoughrecipesharing.unknown": "Unknown"
+  "misc.justenoughrecipesharing.unknown": "Unknown",
+  "misc.justenoughrecipesharing.share_cooldown": "Please wait %s second(s) before sharing another recipe.",
+  "text.autoconfig.justenoughrecipesharing.option.showSharedRecipesInChat": "Show shared recipes in chat",
+  "text.autoconfig.justenoughrecipesharing.option.showSharedRecipesInChat.@Tooltip": "Show a chat message when a recipe is shared"
 }

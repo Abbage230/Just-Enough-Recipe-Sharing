@@ -1,6 +1,9 @@
 package com.ultramega.justenoughrecipesharing.neoforge.platform;
 
+import com.ultramega.justenoughrecipesharing.Config;
 import com.ultramega.justenoughrecipesharing.platform.services.IPlatformHelper;
+
+import java.util.function.Supplier;
 
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.MinecraftServer;
@@ -16,5 +19,10 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public <T extends CustomPacketPayload> void sendPacketToAllPlayers(final MinecraftServer server, final T packet) {
         PacketDistributor.sendToAllPlayers(packet);
+    }
+
+    @Override
+    public Supplier<Config> getConfig() {
+        return () -> ConfigImpl.INSTANCE;
     }
 }
