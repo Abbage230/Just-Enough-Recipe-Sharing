@@ -1,8 +1,8 @@
 {
   "tooltip.justenoughrecipesharing.share" : "レシピを共有",
   "misc.justenoughrecipesharing.shared_recipe": "%sがレシピを共有しました：%s",
-  "misc.justenoughrecipesharing.unknown": "Unknown",
-  "misc.justenoughrecipesharing.share_cooldown": "Please wait %s second(s) before sharing another recipe.",
-  "text.autoconfig.justenoughrecipesharing.option.showSharedRecipesInChat": "Show shared recipes in chat",
-  "text.autoconfig.justenoughrecipesharing.option.showSharedRecipesInChat.@Tooltip": "Show a chat message when a recipe is shared"
+  "misc.justenoughrecipesharing.unknown": "不明",
+  "misc.justenoughrecipesharing.share_cooldown": "別のレシピを共有するには、あと%s秒お待ちください",
+  "text.autoconfig.justenoughrecipesharing.option.showSharedRecipesInChat": "共有されたレシピをチャットに表示",
+  "text.autoconfig.justenoughrecipesharing.option.showSharedRecipesInChat.@Tooltip": "レシピが共有されたときにチャットメッセージを表示します"
 }
